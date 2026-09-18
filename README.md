@@ -1,5 +1,8 @@
 # sosia — File Deduplication Engine
 
+[![ci](https://github.com/tiagouzl/sosia/actions/workflows/ci.yml/badge.svg)](https://github.com/tiagouzl/sosia/actions/workflows/ci.yml)
+[![crates.io](https://img.shields.io/crates/v/sosia.svg)](https://crates.io/crates/sosia)
+
 Motor de deduplicação de arquivos em Rust: varre um diretório, identifica
 conteúdo idêntico com **BLAKE3** e reporta o espaço recuperável — sem apagar
 nada sem sua confirmação explícita.
