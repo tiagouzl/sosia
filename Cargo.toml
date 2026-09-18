@@ -2,7 +2,7 @@
 name = "dedup"
 version = "0.2.0"
 edition = "2021"
-authors = ["Seu Nome <seu.email@example.com>"]
+authors = ["tiagouzl"]
 description = "Engine de alta performance para deduplicação de arquivos em Rust."
 license = "MIT"
 
