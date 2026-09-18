@@ -7,7 +7,7 @@ use std::fs::{self, File};
 use std::io::{BufReader, BufWriter, Write};
 use std::path::Path;
 
-/// Menor prefixo de hash aceito por `dedup find` (8 caracteres hex = 32 bits).
+/// Menor prefixo de hash aceito por `sosia find` (8 caracteres hex = 32 bits).
 pub const MIN_HASH_PREFIX: usize = 8;
 
 /// Quantidade de grupos detalhados no relatório humano.
@@ -37,7 +37,7 @@ pub fn to_json(report: &ScanReport) -> Result<String> {
     serde_json::to_string_pretty(report).context("falha ao serializar o relatório em JSON")
 }
 
-/// Lê um manifesto salvo por `dedup scan --json --output`.
+/// Lê um manifesto salvo por `sosia scan --json --output`.
 ///
 /// Relatórios gerados por versões anteriores (sem campos aditivos) são aceitos
 /// via `#[serde(default)]`, com aviso quando `format_version` não bate.
@@ -46,7 +46,7 @@ pub fn load_report(path: &Path) -> Result<ScanReport> {
         .with_context(|| format!("não foi possível abrir o relatório {}", path.display()))?;
     let report: ScanReport = serde_json::from_reader(BufReader::new(file)).with_context(|| {
         format!(
-            "{} não é um manifesto válido (gere um com `dedup scan <DIR> --json --output <ARQ>`)",
+            "{} não é um manifesto válido (gere um com `sosia scan <DIR> --json --output <ARQ>`)",
             path.display()
         )
     })?;

@@ -1,12 +1,12 @@
-# dedup — File Deduplication Engine
+# sosia — File Deduplication Engine
 
 Motor de deduplicação de arquivos em Rust: varre um diretório, identifica
 conteúdo idêntico com **BLAKE3** e reporta o espaço recuperável — sem apagar
 nada sem sua confirmação explícita.
 
 ```
-dedup scan ~/Downloads          # relatório humano
-dedup scan --json ~/Downloads   # manifesto JSON (para find/verify)
+sosia scan ~/Downloads          # relatório humano
+sosia scan --json ~/Downloads   # manifesto JSON (para find/verify)
 ```
 
 ## Como funciona
@@ -24,16 +24,16 @@ não precisam ser lidos:
 | 4. Saída | grupos ordenados por espaço recuperável, manifesto JSON | — |
 
 A métrica de I/O é auditável: `bytes_hashed` no manifesto conta exatamente os
-bytes lidos nos estágios de hash. `dedup verify` re-abre cada arquivo citado e
+bytes lidos nos estágios de hash. `sosia verify` re-abre cada arquivo citado e
 re-hash para provar que o relatório ainda descreve o disco.
 
 ## Comandos
 
 ```
-dedup scan <CAMINHO> [--json] [--output ARQ] [--include-empty] [--include-hidden]
-dedup find <MANIFESTO> <HASH>      # hash completo ou prefixo de 8+ hex
-dedup verify <MANIFESTO>           # código de saída 1 se algo mudou
-dedup interactive <CAMINHO> [--apply] [--include-hidden]
+sosia scan <CAMINHO> [--json] [--output ARQ] [--include-empty] [--include-hidden]
+sosia find <MANIFESTO> <HASH>      # hash completo ou prefixo de 8+ hex
+sosia verify <MANIFESTO>           # código de saída 1 se algo mudou
+sosia interactive <CAMINHO> [--apply] [--include-hidden]
 ```
 
 ### Segurança primeiro
@@ -101,7 +101,7 @@ pipeline (46–95 ms); a linha de base é estável, pois é limitada por I/O.
 ## Limites
 
 * O manifesto (`scan --json --output`) é uma fotografia: arquivos podem mudar
-  depois da varredura — por isso `dedup verify` existe e é barato de rodar.
+  depois da varredura — por isso `sosia verify` existe e é barato de rodar.
 * `format_version` no JSON (atualmente `1`) permite evoluir o formato com aviso
   explícito em vez de falha silenciosa em `find`/`verify`.
 

@@ -5,7 +5,7 @@ use std::path::PathBuf;
 
 #[derive(Parser)]
 #[command(
-    name = "dedup",
+    name = "sosia",
     version,
     about = "Engine ultrarrápida de deduplicação de arquivos",
     long_about = "Indexa um diretório, identifica arquivos com conteúdo idêntico \

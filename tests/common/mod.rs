@@ -5,8 +5,8 @@
 //! cada crate de teste usa um subconjunto diferente destes helpers.
 #![allow(dead_code)]
 
-use dedup::model::ScanReport;
-use dedup::pipeline::{DeduplicationEngine, EngineOptions};
+use sosia::model::ScanReport;
+use sosia::pipeline::{DeduplicationEngine, EngineOptions};
 use std::fs::{self, File};
 use std::io::Write;
 use std::path::{Path, PathBuf};

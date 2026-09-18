@@ -14,9 +14,9 @@
 //!
 //! Nenhum número aqui é inventado: tudo vem de `std::time::Instant` neste host.
 
-use dedup::model::DuplicateGroup;
-use dedup::pipeline::{DeduplicationEngine, EngineOptions};
 use rayon::prelude::*;
+use sosia::model::DuplicateGroup;
+use sosia::pipeline::{DeduplicationEngine, EngineOptions};
 use std::collections::BTreeMap;
 use std::fs::File;
 use std::io::Write;
@@ -105,7 +105,7 @@ fn total_size(paths: &[PathBuf]) -> u64 {
 }
 
 fn main() {
-    println!("=== Benchmark dedup: pipeline vs. hash-ingênuo ===");
+    println!("=== Benchmark sosia: pipeline vs. hash-ingênuo ===");
     println!("{}", hardware_info());
     println!(
         "dataset: {} arquivos, ~{} MiB de dados sintéticos",
@@ -123,7 +123,7 @@ fn main() {
         UNIQUE_COUNT,
         DUP_GROUPS,
         DUP_COPIES,
-        dedup::report::format_bytes(total_size(&paths))
+        sosia::report::format_bytes(total_size(&paths))
     );
 
     // --- Rodada 1: pipeline (cache frio) -------------------------------
@@ -162,7 +162,7 @@ fn main() {
     println!(
         "  {:>8.2?} | {} lidos | {:>8.1} MiB/s | {} grupo(s) de duplicatas",
         naive_elapsed,
-        dedup::report::format_bytes(naive_bytes),
+        sosia::report::format_bytes(naive_bytes),
         naive_mib_s,
         normalized_naive.len()
     );
@@ -170,15 +170,15 @@ fn main() {
     println!(
         "  {:>8.2?} | {} lidos | {:>8.1} MiB/s | {} grupo(s) de duplicatas",
         pipeline_elapsed,
-        dedup::report::format_bytes(report.bytes_hashed),
+        sosia::report::format_bytes(report.bytes_hashed),
         pipeline_mib_s,
         report.duplicate_groups.len()
     );
     println!();
     println!(
         "leitura evitada pelo pipeline: {} de {} ({:.1}%)",
-        dedup::report::format_bytes(naive_bytes - report.bytes_hashed),
-        dedup::report::format_bytes(naive_bytes),
+        sosia::report::format_bytes(naive_bytes - report.bytes_hashed),
+        sosia::report::format_bytes(naive_bytes),
         100.0 * (naive_bytes - report.bytes_hashed) as f64 / naive_bytes as f64
     );
     println!("speedup (cache frio): {:.2}x", speedup);

@@ -6,12 +6,12 @@
 use anyhow::Result;
 use clap::Parser;
 use console::style;
-use dedup::cli::{Cli, Commands};
-use dedup::pipeline::{DeduplicationEngine, EngineOptions};
-use dedup::progress::Reporter;
-use dedup::report;
-use dedup::walker;
-use dedup::{interactive, verify};
+use sosia::cli::{Cli, Commands};
+use sosia::pipeline::{DeduplicationEngine, EngineOptions};
+use sosia::progress::Reporter;
+use sosia::report;
+use sosia::walker;
+use sosia::{interactive, verify};
 use std::process::ExitCode;
 
 fn main() -> ExitCode {
@@ -141,7 +141,7 @@ fn run(cli: Cli) -> Result<ExitCode> {
         Commands::Verify(args) => {
             let summary = verify::verify_report_with_progress(&args.report, &reporter)?;
             if summary.has_problems() {
-                // Código de saída != 0 permite usar `dedup verify` em CI/monitoração.
+                // Código de saída != 0 permite usar `sosia verify` em CI/monitoração.
                 Ok(ExitCode::from(1))
             } else {
                 Ok(ExitCode::SUCCESS)

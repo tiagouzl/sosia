@@ -3,8 +3,8 @@
 mod common;
 
 use common::{scan, write_copies, write_file};
-use dedup::report::{self, MIN_HASH_PREFIX};
-use dedup::verify::verify_report;
+use sosia::report::{self, MIN_HASH_PREFIX};
+use sosia::verify::verify_report;
 use std::fs;
 
 #[test]

@@ -3,8 +3,8 @@
 mod common;
 
 use common::{scan, scan_with, write_copies, write_file};
-use dedup::pipeline::EngineOptions;
-use dedup::walker::{scan_directory, WalkOptions, WalkStats};
+use sosia::pipeline::EngineOptions;
+use sosia::walker::{scan_directory, WalkOptions, WalkStats};
 use std::fs;
 use std::path::Path;
 
@@ -125,7 +125,7 @@ fn hidden_directories_are_pruned_entirely() {
 
 #[test]
 fn nonexistent_root_fails_validation_instead_of_an_empty_success() {
-    let ghost = "/tmp/nao-existe-dedup-definitivamente";
+    let ghost = "/tmp/nao-existe-sosia-definitivamente";
 
     // O walkdir em si só registra um erro de iteração (a varredura continua —
     // comportamento correto para erros no meio da árvore).
@@ -135,13 +135,13 @@ fn nonexistent_root_fails_validation_instead_of_an_empty_success() {
 
     // A validação explícita transforma isso em um erro do usuário, que o CLI
     // reporta com exit 2 em vez de "nenhuma duplicata".
-    assert!(dedup::walker::ensure_scannable(ghost).is_err());
+    assert!(sosia::walker::ensure_scannable(ghost).is_err());
 
     let dir = tempfile::tempdir().unwrap();
-    assert!(dedup::walker::ensure_scannable(dir.path()).is_ok());
+    assert!(sosia::walker::ensure_scannable(dir.path()).is_ok());
     let file = write_file(&dir.path().join("arq.txt"), b"x");
     assert!(
-        dedup::walker::ensure_scannable(&file).is_err(),
+        sosia::walker::ensure_scannable(&file).is_err(),
         "arquivo regular não é uma raiz válida"
     );
 }

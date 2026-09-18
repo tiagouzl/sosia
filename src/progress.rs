@@ -3,7 +3,7 @@
 //! O reporter é *best-effort*: quando `stderr` não é um terminal, o
 //! `ProgressDrawTarget::stderr()` do `indicatif` se comporta como um alvo
 //! oculto, e `Reporter::hidden()` desliga tudo explicitamente (`--no-progress`).
-//! Como o progresso vai para **stderr**, `dedup scan --json` pode ser redirecionado
+//! Como o progresso vai para **stderr**, `sosia scan --json` pode ser redirecionado
 //! para um arquivo/pipe sem contaminar o manifesto JSON.
 //!
 //! `indicatif::ProgressBar` é `Send + Sync`, então o mesmo `&Reporter` pode ser

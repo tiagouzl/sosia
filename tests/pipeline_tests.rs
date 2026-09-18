@@ -3,7 +3,7 @@
 mod common;
 
 use common::{scan, write_copies, write_file};
-use dedup::model::REPORT_FORMAT_VERSION;
+use sosia::model::REPORT_FORMAT_VERSION;
 use std::path::Path;
 
 #[test]
@@ -150,7 +150,7 @@ fn io_accounting_reflects_the_pipeline_stages() {
     assert!(report.bytes_hashed < 2 * 5000 + 2 * 10 * 1024);
 }
 
-fn contains_file(group: &dedup::model::DuplicateGroup, name: &str) -> bool {
+fn contains_file(group: &sosia::model::DuplicateGroup, name: &str) -> bool {
     group
         .files
         .iter()

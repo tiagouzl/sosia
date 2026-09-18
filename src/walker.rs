@@ -93,7 +93,7 @@ where
     // `filter_entry` devolvendo `false` para um diretório também impede descer
     // nele — é o que queremos para diretórios ocultos. O `depth() == 0` é
     // essencial: o PREDICADO TAMBÉM É APLICADO À RAIZ, então sem essa condição
-    // `dedup scan /tmp/.backup` devolveria zero arquivos (e `tempdir()`, que
+    // `sosia scan /tmp/.backup` devolveria zero arquivos (e `tempdir()`, que
     // cria diretórios `.tmpXXXX`, quebraria silenciosamente).
     let filtered = walker.filter_entry(|entry| {
         if options.include_hidden || entry.depth() == 0 {

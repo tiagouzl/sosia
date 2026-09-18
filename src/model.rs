@@ -2,7 +2,7 @@
 //!
 //! `FileEntry` descreve um arquivo indexado durante a varredura; `DuplicateGroup`
 //! e `ScanReport` são as estruturas serializáveis que compõem o manifesto JSON
-//! consumido por `dedup find` e `dedup verify`.
+//! consumido por `sosia find` e `sosia verify`.
 
 use std::path::PathBuf;
 use std::time::SystemTime;

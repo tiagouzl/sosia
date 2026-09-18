@@ -3,7 +3,7 @@
 mod common;
 
 use common::write_copies;
-use dedup::interactive::apply_removal;
+use sosia::interactive::apply_removal;
 
 #[test]
 fn dry_run_touches_nothing() {

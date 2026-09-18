@@ -1,7 +1,7 @@
-//! # `dedup` — engine de deduplicação de arquivos
+//! # `sosia` — engine de deduplicação de arquivos
 //!
 //! Árvore única de módulos: a biblioteca declara os módulos e o binário
-//! (`src/main.rs`) consome exatamente este código via `use dedup::...`. Assim,
+//! (`src/main.rs`) consome exatamente este código via `use sosia::...`. Assim,
 //! os testes de integração (`tests/`) exercitam o mesmo código que o binário
 //! executa em produção — sem duas árvores de módulos compiladas em paralelo.
 

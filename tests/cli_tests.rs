@@ -1,13 +1,13 @@
 //! Contrato do CLI (flags aceitas/rejeitadas) e formatadores.
 
 use clap::Parser as _;
-use dedup::cli::{Cli, Commands};
-use dedup::report::format_bytes;
+use sosia::cli::{Cli, Commands};
+use sosia::report::format_bytes;
 
 #[test]
 fn scan_accepts_expected_flags() {
     let cli = Cli::try_parse_from([
-        "dedup",
+        "sosia",
         "scan",
         "/tmp/alvo",
         "--json",
@@ -35,7 +35,7 @@ fn scan_accepts_expected_flags() {
 
 #[test]
 fn scan_defaults_are_restrictive() {
-    let cli = Cli::try_parse_from(["dedup", "scan", "/tmp"]).unwrap();
+    let cli = Cli::try_parse_from(["sosia", "scan", "/tmp"]).unwrap();
 
     match cli.command {
         Commands::Scan(args) => {
@@ -51,7 +51,7 @@ fn scan_defaults_are_restrictive() {
 
 #[test]
 fn find_and_verify_take_a_saved_report() {
-    let cli = Cli::try_parse_from(["dedup", "find", "rel.json", "abc123de"]).unwrap();
+    let cli = Cli::try_parse_from(["sosia", "find", "rel.json", "abc123de"]).unwrap();
     match cli.command {
         Commands::Find(args) => {
             // `find` consulta um manifesto já gerado: não há caminho para varrer
@@ -62,18 +62,18 @@ fn find_and_verify_take_a_saved_report() {
         _ => panic!("subcomando esperado: find"),
     }
 
-    Cli::try_parse_from(["dedup", "verify", "rel.json"]).expect("verify válido");
+    Cli::try_parse_from(["sosia", "verify", "rel.json"]).expect("verify válido");
 }
 
 #[test]
 fn interactive_defaults_to_simulation() {
-    let cli = Cli::try_parse_from(["dedup", "interactive", "/tmp"]).unwrap();
+    let cli = Cli::try_parse_from(["sosia", "interactive", "/tmp"]).unwrap();
     match cli.command {
         Commands::Interactive(args) => assert!(!args.apply, "simula por padrão"),
         _ => panic!("subcomando esperado: interactive"),
     }
 
-    let applied = Cli::try_parse_from(["dedup", "interactive", "/tmp", "--apply"]).unwrap();
+    let applied = Cli::try_parse_from(["sosia", "interactive", "/tmp", "--apply"]).unwrap();
     match applied.command {
         Commands::Interactive(args) => assert!(args.apply),
         _ => panic!("subcomando esperado: interactive"),
@@ -85,14 +85,14 @@ fn the_broken_dry_run_flag_no_longer_exists() {
     // O bug: `#[arg(long, default_value_t = true)]` em um `bool` fazia o clap
     // exigir um valor explícito (`--dry-run true`), então `--dry-run` sozinho
     // falhava. A flag foi removida em favor de `--apply`.
-    assert!(Cli::try_parse_from(["dedup", "interactive", "/tmp", "--dry-run"]).is_err());
-    assert!(Cli::try_parse_from(["dedup", "scan", "/tmp", "--dry-run"]).is_err());
+    assert!(Cli::try_parse_from(["sosia", "interactive", "/tmp", "--dry-run"]).is_err());
+    assert!(Cli::try_parse_from(["sosia", "scan", "/tmp", "--dry-run"]).is_err());
 }
 
 #[test]
 fn global_flags_work_after_the_subcommand() {
     let cli =
-        Cli::try_parse_from(["dedup", "scan", "/tmp", "--no-progress", "--threads", "2"]).unwrap();
+        Cli::try_parse_from(["sosia", "scan", "/tmp", "--no-progress", "--threads", "2"]).unwrap();
 
     assert!(cli.no_progress);
     assert_eq!(cli.threads, 2);
