@@ -1,0 +1,32 @@
+[package]
+name = "dedup"
+version = "0.2.0"
+edition = "2021"
+authors = ["Seu Nome <seu.email@example.com>"]
+description = "Engine de alta performance para deduplicação de arquivos em Rust."
+license = "MIT"
+
+[dependencies]
+clap = { version = "4.5", features = ["derive"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+blake3 = "1.5"
+rayon = "1.10"
+walkdir = "2.5"
+dialoguer = "0.11"
+console = "0.15"
+anyhow = "1.0"
+indicatif = "0.17"
+
+[dev-dependencies]
+tempfile = "3.10"
+
+# `libc` é usado apenas pelo harness de benchmark (`examples/benchmark.rs`)
+# para chamar `posix_fadvise(POSIX_FADV_DONTNEED)` e expulsar as páginas do
+# dataset do page cache entre as medições — depende apenas do SO, não do código de produção.
+[target.'cfg(unix)'.dev-dependencies]
+libc = "0.2"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
