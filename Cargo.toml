@@ -1,6 +1,6 @@
 [package]
 name = "sosia"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 authors = ["tiagouzl"]
 description = "Engine de alta performance para deduplicação de arquivos em Rust."
