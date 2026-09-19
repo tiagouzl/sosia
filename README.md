@@ -22,7 +22,7 @@ não precisam ser lidos:
 |---|---|---|
 | 0. Varredura | `walkdir` sequencial indexa tamanho, mtime e `(device, inode)` | só metadados |
 | 1. Tamanho | agrupa por tamanho; tamanhos únicos nunca são lidos | **zero leitura de conteúdo** |
-| 2. Hash parcial | BLAKE3 dos primeiros 4 KiB em paralelo (Rayon); prefixos únicos saem | 4 KiB por candidato |
+| 2. Hash parcial | XXH3-64 dos primeiros 4 KiB em paralelo (Rayon); prefixos únicos saem | 4 KiB por candidato |
 | 3. Hash completo | BLAKE3 *streaming* apenas de candidatos que sobreviveram | arquivo inteiro |
 | 4. Saída | grupos ordenados por espaço recuperável, manifesto JSON | — |
 

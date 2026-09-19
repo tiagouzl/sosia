@@ -19,7 +19,8 @@ pub const FULL_HASH_BUFFER_SIZE: usize = 64 * 1024;
 /// Resultado de um cálculo de hash.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct HashOutcome {
-    /// Digest BLAKE3 em hexadecimal (64 caracteres).
+    /// Digest em hexadecimal: XXH3-64 (16 caracteres) no hash parcial,
+    /// BLAKE3 (64 caracteres) no hash completo.
     pub hex: String,
     /// Bytes efetivamente lidos do arquivo durante o cálculo.
     pub bytes_read: u64,
@@ -35,7 +36,11 @@ impl HashOutcome {
     }
 }
 
-/// Calcula o BLAKE3 dos **primeiros** [`PARTIAL_HASH_SIZE`] bytes do arquivo.
+/// Calcula o XXH3-64 dos **primeiros** [`PARTIAL_HASH_SIZE`] bytes do arquivo.
+///
+/// O parcial é só filtro (o estágio 3 confirma com BLAKE3), então aqui vale
+/// velocidade sobre força criptográfica: XXH3 supera o BLAKE3 em dado pequeno
+/// e qualquer colisão morre no hash completo — sem risco de perda de dado.
 ///
 /// `Read::read` não garante preencher o buffer mesmo havendo dados
 /// disponíveis — é uma garantia da trait, não uma promessa da implementação.
@@ -64,7 +69,7 @@ pub fn compute_partial_hash<P: AsRef<Path>>(path: P) -> Result<HashOutcome> {
     }
 
     Ok(HashOutcome::new(
-        blake3::hash(&buffer[..filled]).to_hex().to_string(),
+        format!("{:016x}", xxhash_rust::xxh3::xxh3_64(&buffer[..filled])),
         filled as u64,
     ))
 }
@@ -112,6 +117,8 @@ mod tests {
 
         let big_outcome = compute_partial_hash(&big).unwrap();
         assert_eq!(big_outcome.bytes_read, PARTIAL_HASH_SIZE as u64);
+        // XXH3-64 em hex: sempre 16 caracteres.
+        assert_eq!(big_outcome.hex.len(), 16);
 
         let small_outcome = compute_partial_hash(&small).unwrap();
         assert_eq!(small_outcome.bytes_read, 5);
